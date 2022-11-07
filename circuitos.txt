@@ -1,4 +1,4 @@
--- Circuito 1--
+-- Circuito 1 --
 
 X X X X X X X X X X
 X X - - - X X - - X
@@ -8,7 +8,7 @@ X - - - - - - - - F
 X X X X - - - - X X
 X X X X X X X X X X
 
--- Circuito 2-
+-- Circuito 2 --
 
 X X X X X X X X X X X X X X X X X
 X X - - - X X - - X - X X - - - X
@@ -18,7 +18,7 @@ X - - - - - - - - - - - - - - - F
 X X X X - - - - X X - - X - - X X
 X X X X X X X X X X X X X X X X X
 
--- Circuito 3-
+-- Circuito 3 --
 
 X X X X X X X X X X X X X X X X X
 X X - - - X X - - X - X X - - - X
