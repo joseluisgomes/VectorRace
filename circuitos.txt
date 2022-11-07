@@ -1,0 +1,29 @@
+-- Circuito 1--
+
+X X X X X X X X X X
+X X - - - X X - - X
+X - - - - - - - - F
+X P - - X X X - - F
+X - - - - - - - - F
+X X X X - - - - X X
+X X X X X X X X X X
+
+-- Circuito 2-
+
+X X X X X X X X X X X X X X X X X
+X X - - - X X - - X - X X - - - X
+X - - - - - - - - - - - - - - - F
+X P - - X X X - - - - X X X - - F
+X - - - - - - - - - - - - - - - F
+X X X X - - - - X X - - X - - X X
+X X X X X X X X X X X X X X X X X
+
+-- Circuito 3-
+
+X X X X X X X X X X X X X X X X X
+X X - - - X X - - X - X X - - - X
+X - - - - - - - - - - - - - - - X
+X P - - X X X - - X - X X X - - X
+X - - - - - X - - - - - - - - - X
+X X X X - - - - X X - - X - - - X
+X X X X X X X X X X X X X F F F X
