@@ -1,4 +1,4 @@
-from src.car.Acceleration import Acceleration
+from src.car.acceleration import Acceleration
 
 
 class Car:

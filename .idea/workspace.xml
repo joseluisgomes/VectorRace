@@ -5,12 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="13947974-4f46-4569-a7d7-aed1697ece76" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/car/Acceleration.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/car/Car.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Inteligiencia-Artificial.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Inteligiencia-Artificial.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/graph.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/node.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/search_strategies/blind.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/search_strategies/heuristic.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/circuitos.txt" beforeDir="false" afterPath="$PROJECT_DIR$/circuitos.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/car/Acceleration.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/car/acceleration.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/car/Car.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/car/car.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,10 +40,14 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/joseluisgomes/Github/UMinho/Inteligiencia-Artificial/src&quot;
   }
 }</component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/car" />
     </key>
