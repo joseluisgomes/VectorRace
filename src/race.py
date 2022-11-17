@@ -22,11 +22,34 @@ def print_circuits(circuits_file):
         circuit_index += 1
 
 
-def circuit_graphs():
-    circuits = read_circuits()
+def print_circuits_graphs(graphs):
+    graph_index = 1
+
+    for graph in graphs:
+        print(f"Graph {graph_index}:")
+        print(f"{graph}")
+        graph_index += 1
+
+
+def circuits_graphs(circuits_file):
+    circuits = read_circuits(circuits_file)
+    graphs = list()
 
     for circuit in circuits:
-        graph = [[0] * len(circuit)]
+        graph = list()
+
+        for index in range(0, len(circuit)):
+            match circuit.__getitem__(index):
+                case 'X':
+                    graph.append(25)
+                case '-':
+                    graph.append(1)
+                case 'P':
+                    graph.append(0)
+                case 'F':
+                    graph.append(9)  # Cost of 9 equals to infinity
+        graphs.append(graph)
+    return graphs
 
 
 def race():
@@ -35,7 +58,7 @@ def race():
 
     while status != 0:
         print("1-Print the circuits")
-        print("2-Print Graph")
+        print("2-Print Graphs")
         print("3-Plot Graph")
         print("4-Print the nodes of the Graph")
         print("5-Print the edges of the Graph")
@@ -55,7 +78,9 @@ def race():
                 print_circuits("circuits.txt")
                 print("Press Enter to continue")
             case 2:
-                print(graph)
+                # print(graph)
+                circuit_graphs = circuits_graphs("circuits.txt")
+                print_circuits_graphs(circuit_graphs)
                 print("Press Enter to continue")
             case 3:
                 graph.plot()
