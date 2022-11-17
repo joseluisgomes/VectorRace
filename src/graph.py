@@ -29,23 +29,27 @@ class Graph:
                 edge_attributes = edge_attributes + nodo + " ->" + node + " cost:" + str(cost) + "\n"
         return edge_attributes
 
-    def contains_node(self, node):
-        if self.graph.__contains__(node):
-            return self.get_node_by_name(node.name)
-        else:
-            self.nodes.append(node)
-            self.graph[node.name] = list()
-
     def add_edge(self, node_1, node_2, weight):  # Add an edge to the graph
-        n1 = Node(node_1)
-        n2 = Node(node_2)
+        n1 = Node(node_1)  # cria um objeto node  com o nome passado como parametro
+        n2 = Node(node_2)  # cria um objeto node  com o nome passado como parametro
+        if n1 not in self.nodes:
 
-        self.contains_node(n1)
-        self.contains_node(n2)
+            self.nodes.append(n1)
+            self.graph[node_1] = set()
+        else:
+            n1 = self.get_node_by_name(node_1)
 
-        self.graph[node_1].append((node_2, weight))
+        if n2 not in self.nodes:
+            self.nodes.append(n2)
+            self.graph[node_2] = set()
+        else:
+            n2 = self.get_node_by_name(node_2)
+
+        self.graph[node_1].add((node_2, weight))
+
+        # se o grafo for nao direcionado, colocar a aresta inversa
         if not self.directed:
-            self.graph[node_2].append((node_1, weight))
+            self.graph[node_2].add((node_1, weight))
 
     def get_nodes(self):  # Gel all nodes of the graph
         return self.nodes
