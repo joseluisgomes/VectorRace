@@ -7,55 +7,52 @@ import math
 
 class Graph:
     def __init__(self, directed=False):
-        self.m_nodes = []
-        self.m_directed = directed
-        self.m_graph = {}  # Dictionary to store the nodes and edges
-        self.m_heuristics = {}  # Dictionary to store the heuristics for each node: informed search
+        self.nodes = []
+        self.directed = directed
+        self.graph = {}  # Dictionary to store the nodes, edges and weights
+        self.heuristics = {}  # Dictionary to store the heuristics for each node: informed search
 
     def get_node_by_name(self, name):
         search_node = Node(name)
-        for node in self.m_nodes:
+        for node in self.nodes:
             if node == search_node:
                 return node
             else:
                 return None
 
-    def print_edge(self):
+    def print_edges(self):
         edge_attributes = ""
-        lista = self.m_graph.keys()
+        lista = self.graph.keys()
 
         for nodo in lista:
-            for (node, cost) in self.m_graph[nodo]:
+            for (node, cost) in self.graph[nodo]:
                 edge_attributes = edge_attributes + nodo + " ->" + node + " cost:" + str(cost) + "\n"
         return edge_attributes
 
-    def add_edge(self, node1, node2, weight):  # Add an edge to the graph
-        n1 = Node(node1)
-        n2 = Node(node2)
-
-        if n1 not in self.m_nodes:
-            self.m_nodes.append(n1)
-            self.m_graph[node1] = list()
+    def contains_node(self, node):
+        if self.graph.__contains__(node):
+            return self.get_node_by_name(node.name)
         else:
-            n1 = self.get_node_by_name(node1)
+            self.nodes.append(node)
+            self.graph[node.name] = list()
 
-        if n2 not in self.m_nodes:
-            self.m_nodes.append(n2)
-            self.m_graph[node2] = list()
-        else:
-            n2 = self.get_node_by_name(node2)
+    def add_edge(self, node_1, node_2, weight):  # Add an edge to the graph
+        n1 = Node(node_1)
+        n2 = Node(node_2)
 
-        self.m_graph[node1].append((node2, weight))
+        self.contains_node(n1)
+        self.contains_node(n2)
 
-        if not self.m_directed:
-            self.m_graph[node2].append((node1, weight))
+        self.graph[node_1].append((node_2, weight))
+        if not self.directed:
+            self.graph[node_2].append((node_1, weight))
 
     def get_nodes(self):  # Gel all nodes of the graph
-        return self.m_nodes
+        return self.nodes
 
-    def get_arc_cost(self, node1, node2):  # Get the edge cost
+    def get_edge_cost(self, node1, node2):
         total_cost = math.inf
-        a = self.m_graph[node1]  # List of edges for that node
+        a = self.graph[node1]  # List of edges for that node
 
         for (nodo, cost) in a:
             if nodo == node2:
@@ -69,30 +66,30 @@ class Graph:
         i = 0
 
         while i + 1 < len(aux):
-            cost = cost + self.get_arc_cost(aux[i], aux[i + 1])
+            cost = cost + self.get_edge_cost(aux[i], aux[i + 1])
             i += 1
         return cost
 
     def get_neighbours(self, nodo):  # Returns the neighbours of the given node
         lista = []
-        for (neighbor, peso) in self.m_graph[nodo]:
+        for (neighbor, peso) in self.graph[nodo]:
             lista.append((neighbor, peso))
         return lista
 
     def plot(self):  # Plot the graph
-        lista_v = self.m_nodes  # Create a list of vertices
+        nodes = self.nodes  # Create a list of vertices
         graph = nx.Graph()
 
-        for nodo in lista_v:
-            n = nodo.set_name()
-            graph.add_node(n)
-            for (neighbour, peso) in self.m_graph[n]:
-                lista = (n, neighbour)
-                # lista_a.append(lista)
-                graph.add_edge(n, neighbour, weight=peso)
+        for node in nodes:
+            aux_node = node.set_name()  # Auxiliary node
+            graph.add_node(aux_node)
+
+            for (neighbour, weight) in self.graph[aux_node]:
+                graph.add_edge(aux_node, neighbour, weight=weight)
 
         pos = nx.spring_layout(graph)
         nx.draw_networkx(graph, pos, with_labels=True, font_weight='bold')
+
         labels = nx.get_edge_attributes(graph, 'weight')
         nx.draw_networkx_edge_labels(graph, pos, edge_labels=labels)
 
@@ -101,31 +98,19 @@ class Graph:
 
     def add_heuristic(self, node, estimate):  # Defines the heuristic for each node
         n1 = Node(node)
-        if n1 in self.m_nodes:
-            self.m_heuristics[node] = estimate
+        if n1 in self.nodes:
+            self.heuristics[node] = estimate
 
-    def heuristic(self):
-        nodes = self.m_graph.keys
-        for node in nodes:
-            self.m_heuristics[node] = 1  # Define the heuristic for each node (Default value: 1)
+    def define_heuristic(self):
+        for node in self.graph.keys():
+            self.heuristics[node] = 1  # Define the heuristic for each node (Default value: 1)
         return True
 
-    def calculate_estimate(self, estimate):
-        estimate_keys_list = list(estimate.keys())
-        min_estimate = estimate[estimate_keys_list[0]]
-        node = estimate_keys_list[0]
-
-        for key, value in estimate.items():
-            if value < min_estimate:
-                min_estimate = value
-                node = key
-        return node
-
     def get_heuristic(self, node):  # Returns the node's heuristic
-        if node not in self.m_heuristics.keys():
+        if node not in self.heuristics.keys():
             return 1000
         else:
-            return self.m_heuristics[node]
+            return self.heuristics[node]
 
     def DFS_search(self, start, end, path=None, visited=None):  # Depth-First Search
         if path is None:
@@ -140,7 +125,7 @@ class Graph:
             total_cost = self.calculate_cost(path)
             return path, total_cost
 
-        for (neighbour, weight) in self.m_graph[start]:
+        for (neighbour, weight) in self.graph[start]:
             if neighbour not in visited:
                 result = self.DFS_search(neighbour, end, path, visited)
                 if result is not None:
@@ -161,13 +146,14 @@ class Graph:
         parent[start] = None
 
         path_found = False
+        cost = 0
         while not queue.empty() and path_found is False:
             actual_node = queue.get()
 
             if actual_node == end:
                 path_found = True
             else:
-                for (neighbour, weight) in self.m_graph[actual_node]:
+                for (neighbour, weight) in self.graph[actual_node]:
                     if neighbour not in visited:
                         queue.put(neighbour)
                         parent[neighbour] = actual_node
@@ -202,7 +188,7 @@ class Graph:
 
             # Find the node with the lowest heuristic
             for visited_node in open_set:
-                if node is None or self.m_heuristics[visited_node] < self.m_heuristics[node]:
+                if node is None or self.heuristics[visited_node] < self.heuristics[node]:
                     node = visited_node
 
             if node is None:
@@ -275,7 +261,7 @@ class Graph:
                     flag = 1
                     calculate_heuristic[neighbor] = node_distances[neighbor] + self.get_heuristic(neighbor)
             if flag == 1:
-                minimum_estimate = self.calculate_estimate(calculate_heuristic)
+                minimum_estimate = calculate_estimate(calculate_heuristic)
                 node = minimum_estimate
             if node is None:
                 print('Path does not exist!')
@@ -295,13 +281,15 @@ class Graph:
                 rebuild_path.append(start)
                 rebuild_path.reverse()
 
-                # print('Path found: {}'.format(reconst_path))
+                # print('Path found: {}'.format(rebuild_path))
                 return rebuild_path, self.calculate_cost(rebuild_path)
 
             # For all neighbors of the current node do
             for (neighbor, weight) in self.get_neighbours(node):
-                # if the current node isn't in both open_list and closed_list
-                # add it to open_list and note n as it's parent
+                """ 
+                    If the current node isn't in both open_list and closed_list
+                    add it to open_list and note n as it's parent.
+                """
                 if neighbor not in open_set and neighbor not in closed_set:
                     open_set.add(neighbor)
                     parents[neighbor] = node
@@ -329,6 +317,18 @@ class Graph:
 
     def __str__(self):
         out = ""
-        for key in self.m_graph.keys():
-            out = out + "node" + str(key) + ": " + str(self.m_graph[key]) + "\n"
+        for key in self.graph.keys():
+            out = out + "node" + str(key) + ": " + str(self.graph[key]) + "\n"
             return out
+
+
+def calculate_estimate(estimate):
+    estimate_keys_list = list(estimate.keys())
+    min_estimate = estimate[estimate_keys_list[0]]
+    node = estimate_keys_list[0]
+
+    for key, value in estimate.items():
+        if value < min_estimate:
+            min_estimate = value
+            node = key
+    return node
