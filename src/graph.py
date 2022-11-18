@@ -26,12 +26,13 @@ class Graph:
 
         for nodo in lista:
             for (node, cost) in self.graph[nodo]:
-                edge_attributes = edge_attributes + nodo + " ->" + node + " cost:" + str(cost) + "\n"
+                edge_attributes = edge_attributes + nodo + " -> " + node + " cost: " + str(cost) + "\n"
         return edge_attributes
 
     def add_edge(self, node_1, node_2, weight):  # Add an edge to the graph
-        n1 = Node(node_1)  # cria um objeto node  com o nome passado como parametro
-        n2 = Node(node_2)  # cria um objeto node  com o nome passado como parametro
+        n1 = Node(node_1)
+        n2 = Node(node_2)
+
         if n1 not in self.nodes:
 
             self.nodes.append(n1)
@@ -47,7 +48,7 @@ class Graph:
 
         self.graph[node_1].add((node_2, weight))
 
-        # se o grafo for nao direcionado, colocar a aresta inversa
+        # If the graph is not directed then add the opposite edge
         if not self.directed:
             self.graph[node_2].add((node_1, weight))
 

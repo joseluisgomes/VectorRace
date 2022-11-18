@@ -22,9 +22,19 @@ def print_circuits(circuits_file):
         circuit_index += 1
 
 
+def plot_graph(graph):
+    graph.plot()
+
+
 def print_circuits_graphs(graphs):
+    if graphs is None:
+        return
+
+    graph_index = 1
     for graph in graphs:
-        graph.plot()
+        print(f"Graph {graph_index}: ")
+        print(graph.print_edges())
+        graph_index += 1
 
 
 def format_circuits(circuits):
@@ -46,24 +56,30 @@ def circuits_graphs(circuits_file):
         graph = Graph()
 
         for i in range(len(circuit)):
-            if circuit.__getitem__(i) == '-' and circuit.__getitem__(i + 1) == 'X':
+            if i + 1 == len(circuit):
+                break
+
+            current_char = circuit.__getitem__(i)
+            next_char = circuit.__getitem__(i + 1)
+
+            if current_char == '-' and next_char == 'X':
                 graph.add_edge(f"-{i}", f"X{i + 1}", 25)
-            if circuit.__getitem__(i) == '-' and circuit.__getitem__(i + 1) == '-':
+            if current_char == '-' and next_char == '-':
                 graph.add_edge(f"-{i}", f"-{i + 1}", 1)
-            if circuit.__getitem__(i) == '-' and circuit.__getitem__(i + 1) == 'F':
+            if current_char == '-' and next_char == 'F':
                 graph.add_edge(f"-{i}", f"F{i + 1}", 1)
 
-            if circuit.__getitem__(i) == 'P' and circuit.__getitem__(i + 1) == 'X':
+            if current_char == 'P' and next_char == 'X':
                 graph.add_edge(f"P{i}", f"X{i + 1}", 25)
-            if circuit.__getitem__(i) == 'P' and circuit.__getitem__(i + 1) == '-':
+            if current_char == 'P' and next_char == '-':
                 graph.add_edge(f"P{i}", f"-{i + 1}", 1)
 
             # TODO: Change the velocity & the acceleration of the vehicle
-            if circuit.__getitem__(i) == 'X' and circuit.__getitem__(i + 1) == 'X':
+            if current_char == 'X' and next_char == 'X':
                 graph.add_edge(f"X{i}", f"X{i + 1}", 25)
-            if circuit.__getitem__(i) == 'X' and circuit.__getitem__(i + 1) == '-':
-                graph.add_edge(f"X{i}", f"-{i + 1}", 5)
-            if circuit.__getitem__(i) == 'X' and circuit.__getitem__(i + 1) == 'F':
+            if current_char == 'X' and next_char == '-':
+                graph.add_edge(f"X{i}", f"-{i + 1}", 13)
+            if current_char == 'X' and next_char == 'F':
                 graph.add_edge(f"X{i}", f"F{i + 1}", 25)
 
         graphs.append(graph)
@@ -100,7 +116,10 @@ def race():
                 print_circuits_graphs(circuit_graphs)
                 print("Press Enter to continue")
             case 3:
-                graph.plot()
+                graph_index = int(input("Circuit number -> "))
+                graph = circuits_graphs("circuits.txt").__getitem__(graph_index - 1)
+                plot_graph(graph)
+                print("Press Enter to continue")
             case 4:
                 # Print the i + 1eys of the dictionary which represents the graph
                 print(graph.graph.keys())
@@ -110,13 +129,13 @@ def race():
                 print(graph.print_edges())
                 print("Press Enter to continue")
             case 6:
-                start = input("Start node ->")
-                end = input("Destiny node ->")
+                start = input("Start node -> ")
+                end = input("Destiny node -> ")
                 print(graph.DFS_search(start, end, path=[], visited=set()))
                 print("Press Enter to continue")
             case 7:
-                start = input("Start node->")
-                end = input("Destiny node->")
+                start = input("Start node-> ")
+                end = input("Destiny node-> ")
                 print(graph.greedy_search(start, end))
                 print("Press Enter to continue")
             case _:
@@ -124,5 +143,4 @@ def race():
                 print("Press Enter to continue")
 
 
-# race()
-circuits_graphs("circuits.txt")
+race()
