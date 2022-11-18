@@ -2,10 +2,10 @@ from src.car.acceleration import Acceleration
 
 
 class Car:
-    def __init__(self, registration, line_position, column_position):
+    def __init__(self, registration):
         self.registration = registration  # Each car has a unique registration/ID
-        self.line_position = line_position
-        self.column_position = column_position
+        self.line_position = 0
+        self.column_position = 0
         self.position_variables = [{"velocity": 0, "acceleration": Acceleration.CONSTANT},
                                    {"velocity": 0, "acceleration": Acceleration.CONSTANT}]
 
