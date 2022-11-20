@@ -9,7 +9,7 @@ class Node:
     def get_id(self):
         return self.id
 
-    def set_name(self):
+    def get_name(self):
         return self.name
 
     def __eq__(self, other):
