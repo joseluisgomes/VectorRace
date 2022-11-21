@@ -1,23 +1,23 @@
 X X X X X X X X X X X X X X X X X
 X X - X - X X X X X - X X - - - X
-X - - X - - - - - - - - - - - - X
+X - - X - - - - - - - - - - - - F
 X P - - - X X - - X - X X X - - F
-X - - - - X X - - - - - - - - - X
+X - - - - X X - - - - - - - - - F
 X X - - - - - - - X X - X - - - X
 X X X X X X X X X X X X X X X X X
 $
 X X X X X X X X X X X X X X X X X
 X X - - - X X - - X - X X - - - X
-X - - - - - - - - - - - - - - - X
+X - - - - - - - - - - - - - - - F
 X P - - X X X - - - - X X X - - F
-X - - - - - - - - - - - - - - - X
+X - - - - - - - - - - - - - - - F
 X X X X - - - - X X - - X - - X X
 X X X X X X X X X X X X X X X X X
 $
 X X X X X X X X X X X X X X X X X
 X X - - - X X - - X - X X - - - X
-X - - - - - - - - - - - - - - - X
+X - - - - - - - - - - - - - - - F
 X P - - X X X - - X - X X X - - F
-X - - - - - X - - - - - - - - - x
+X - - - - - X - - - - - - - - - F
 X X X X - - - - X X - - X - - - X
 X X X X X X X X X X X X X X X X X

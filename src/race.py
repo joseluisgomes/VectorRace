@@ -78,7 +78,32 @@ def race():
                 start_node = input("Start node-> ")
                 end_node = input("Destiny node-> ")
 
+                print(circuit_graph.BFS_search(start_node, end_node))
+                print("Press Enter to continue")
+            case 8:
+                print(f"#Circuits: {len(circuit_graphs)}")
+                graph_index = int(input("Circuit number -> "))
+                circuit_graph = circuit_graphs.__getitem__(graph_index - 1)
+
+                start_node = input("Start node-> ")
+                end_node = input("Destiny node-> ")
+
+                # Heuristic: distance from the start node to the end node
+                # circuit_graph.add_heuristic(start_node)
+
+                circuit_graph.straight_distance(start_node, end_node)
+
                 print(circuit_graph.greedy_search(start_node, end_node))
+                print("Press Enter to continue")
+            case 9:
+                print(f"#Circuits: {len(circuit_graphs)}")
+                graph_index = int(input("Circuit number -> "))
+                circuit_graph = circuit_graphs.__getitem__(graph_index - 1)
+
+                start_node = input("Start node-> ")
+                end_node = input("Destiny node-> ")
+
+                print(circuit_graph.BFS_search(start_node, end_node))
                 print("Press Enter to continue")
             case _:
                 print("Invalid option...")

@@ -1,3 +1,5 @@
+from queue import Queue
+
 import networkx as nx
 import matplotlib.pyplot as plt
 import math
@@ -93,12 +95,26 @@ class Graph:
         if n1 in self.nodes:
             self.heuristics[node] = estimate
 
-    def get_neighbours(self, nodo):
-        lista = []
+    # Calculates the straight distance between 2 nodes
+    def straight_distance(self, start, end):  # TODO: Finish this function
+        start_node_position = self.node_position(start)
+        end_node_position = self.node_position(end)
 
-        for (neighbour, peso) in self.graph[nodo]:
-            lista.append((neighbour, peso))
-        return lista
+    def node_position(self, node):
+        graph_keys = list(self.graph)
+        node_position = 0
+
+        for key in graph_keys:
+            if key == node:
+                return node_position
+            node_position += 1
+
+    def get_neighbours(self, node):
+        neighbours = []
+
+        for (neighbour, weight) in self.graph[node]:
+            neighbours.append((neighbour, weight))
+        return neighbours
 
     def DFS_search(self, start, end, path=None, visited=None):
         if visited is None:
@@ -120,6 +136,41 @@ class Graph:
                     return result
         path.pop()  # If It doesn't find it then remove the one on the path
         return None
+
+    def BFS_search(self, start, end):
+        visited = set()  # Define a set of visited nodes in order to avoid loops
+        fila = Queue()
+
+        # Add the start node to the queue & the visited set
+        fila.put(start)
+        visited.add(start)
+
+        # Ensure that the start node is orphan
+        parent = dict()
+        parent[start] = None
+
+        path_found = False
+        while not fila.empty() and path_found is False:
+            current_node = fila.get()
+            if current_node == end:
+                path_found = True
+            else:
+                for (neighbour, peso) in self.graph[current_node]:
+                    if neighbour not in visited:
+                        fila.put(neighbour)
+                        parent[neighbour] = current_node
+                        visited.add(neighbour)
+        # Rebuild the path
+        path = []
+        if path_found:
+            path.append(end)
+
+            while parent[end] is not None:
+                path.append(parent[end])
+                end = parent[end]
+            path.reverse()
+            cost = self.calculate_cost(path)
+        return path, cost
 
     def greedy_search(self, start, end):
         """

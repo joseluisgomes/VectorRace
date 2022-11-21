@@ -81,5 +81,12 @@ def circuits_graphs(circuits_file):
             if current_char == 'X' and next_char == 'F':
                 graph.add_edge(f"X{i}", f"F{i + 1}", 25)
 
+            if current_char == 'F' and next_char == 'X':
+                graph.add_edge(f"F{i}", f"X{i + 1}", 0)
+            if current_char == 'F' and next_char == '-':
+                graph.add_edge(f"F{i}", f"-{i + 1}", 0)
+            if current_char == 'F' and next_char == 'F':
+                graph.add_edge(f"F{i}", f"F{i + 1}", 0)
+
         graphs.append(graph)
     return graphs
