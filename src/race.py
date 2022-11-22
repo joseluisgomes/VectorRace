@@ -88,12 +88,10 @@ def race():
                 start_node = input("Start node-> ")
                 end_node = input("Destiny node-> ")
 
-                # Heuristic: distance from the start node to the end node
-                # circuit_graph.add_heuristic(start_node)
-
-                circuit_graph.straight_distance(start_node, end_node)
-
-                print(circuit_graph.greedy_search(start_node, end_node))
+                """
+                    Heuristic: lowest cost between the start & the end nodes
+                """
+                print(circuit_graph.lowest_cost(start_node, end_node))
                 print("Press Enter to continue")
             case 9:
                 print(f"#Circuits: {len(circuit_graphs)}")

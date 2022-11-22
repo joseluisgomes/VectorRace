@@ -96,9 +96,53 @@ class Graph:
             self.heuristics[node] = estimate
 
     # Calculates the straight distance between 2 nodes
-    def straight_distance(self, start, end):  # TODO: Finish this function
+    def lowest_cost(self, start, end):  # Greedy com heurística focada no menor custo
         start_node_position = self.node_position(start)
         end_node_position = self.node_position(end)
+
+        keys_slice = list(self.graph)[start_node_position: end_node_position + 1]
+
+        X_visited = list()
+        visited_keys = list()
+        total_cost = 0
+
+        for index in range(len(keys_slice)):
+            key = str(keys_slice.__getitem__(index))
+            value = self.graph.get(key)
+            keys_list = list(value)
+
+            if visited_keys.__contains__(key):
+                key = str(keys_slice.__getitem__(index + 1))
+                if key == end:
+                    visited_keys.append(key)
+                    break
+
+            if len(value) == 1:
+                total_cost += keys_list[0][1]
+                visited_keys.append(key)
+            else:
+                for pair in keys_list:
+                    pair_to_str = str(pair[0])  # Pair converted to string
+
+                    if not pair_to_str.__contains__('X') and not pair_to_str.__contains__('F'):
+                        if not visited_keys.__contains__(pair_to_str):
+                            total_cost += pair[1]
+                            visited_keys.append(key if not key.__contains__('X') else pair_to_str)
+
+                    else:  # Outers of the circuit
+                        if not X_visited.__contains__(pair_to_str):
+                            X_neighbours = self.get_neighbours(pair_to_str)
+
+                            for neighbour_pair in X_neighbours:
+                                neighbour_pair_str = str(neighbour_pair[0])
+
+                                if not neighbour_pair_str.__contains__('X') and not neighbour_pair_str.__contains__('F'):
+                                    if not visited_keys.__contains__(neighbour_pair_str):
+                                        total_cost += neighbour_pair[1]
+                                        visited_keys.append(neighbour_pair_str)
+                                        break
+                            X_visited.append(pair_to_str)
+        return visited_keys, total_cost
 
     def node_position(self, node):
         graph_keys = list(self.graph)
@@ -232,7 +276,7 @@ class Graph:
         return None
 
     def __str__(self):
-        out = ""
+        graph = ""
         for key in self.graph.keys():
-            out = out + "node " + str(key) + ": " + str(self.graph[key]) + "\n"
-        return out
+            graph = graph + "node " + str(key) + ": " + str(self.graph[key]) + "\n"
+        return graph
