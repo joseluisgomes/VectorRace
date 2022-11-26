@@ -45,14 +45,11 @@ def race():
                 print(f"Race: {DFS_result})")
                 print("Press Enter to continue")
             case 6:
-                #            print(f"#Circuits: {len(circuit_graphs)}")
-                graph_index = int(input("Circuit number -> "))
-                #          circuit_graph = circuit_graphs.__getitem__(graph_index - 1)
-
                 start_node = input("Start node-> ")
                 end_node = input("Destiny node-> ")
 
-                #       print(circuit_graph.BFS_search(start_node, end_node))
+                BFS_result = circuit_graphs.BFS_search(start_node, end_node)
+                print(f"Race: {BFS_result})")
                 print("Press Enter to continue")
             case 7:
                 #            print(f"#Circuits: {len(circuit_graphs)}")

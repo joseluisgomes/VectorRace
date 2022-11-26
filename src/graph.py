@@ -134,7 +134,7 @@ class Graph:
                 if target.get_label() == 'F':
                     if target.__str__() == destiny:
                         right_neighbour = target.__str__()
-                        return right_neighbour
+                        return right_neighbour  # Destiny node founded => no more iterations are needed
                 else:
                     column = neighbour.get_column()
                     right_neighbour = neighbour.__str__()
@@ -159,10 +159,10 @@ class Graph:
 
     def BFS_search(self, start, end):
         visited = set()  # Define a set of visited nodes in order to avoid loops
-        fila = Queue()
+        queue = Queue()
 
         # Add the start node to the queue & the visited set
-        fila.put(start)
+        queue.put(start)
         visited.add(start)
 
         # Ensure that the start node is orphan
@@ -170,16 +170,19 @@ class Graph:
         parent[start] = None
 
         path_found = False
-        while not fila.empty() and path_found is False:
-            current_node = fila.get()
+        while not queue.empty() and path_found is False:
+            current_node = queue.get()
+
             if current_node == end:
                 path_found = True
             else:
-                for (neighbour, peso) in self.graph[current_node]:
-                    if neighbour not in visited:
-                        fila.put(neighbour)
-                        parent[neighbour] = current_node
-                        visited.add(neighbour)
+                for (neighbour, weight) in self.graph[current_node]:
+                    neighbour_str = neighbour.__str__()
+
+                    if neighbour_str not in visited:
+                        queue.put(neighbour_str)
+                        parent[neighbour_str] = current_node
+                        visited.add(neighbour_str)
         # Rebuild the path
         path = []
         if path_found:
