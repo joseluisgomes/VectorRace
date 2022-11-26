@@ -9,14 +9,13 @@ def race():
 
     while status != 0:
         print("1-Print circuits")
-        print("2-Print the graphs of the circuits")
-        print("3-Plot Graph")
-        print("4-Print the nodes of the Graph")
-        print("5-Print the edges of the Graph")
-        print("6-DFS Search")
-        print("7-BFS Search")
-        print("8-Greedy Search")
-        print("9-A Star Search")
+        print("2-Plot Graph")
+        print("3-Print the nodes of the Graph")
+        print("4-Print the edges of the Graph")
+        print("5-DFS Search")
+        print("6-BFS Search")
+        print("7-Greedy Search")
+        print("8-A Star Search")
         print("0-Exit")
 
         status = int(input("Choose your option -> "))
@@ -29,45 +28,24 @@ def race():
                 circuit.print_circuits(circuits_file)
                 print("Press Enter to continue")
             case 2:
-                circuit.print_circuits_graphs(circuit_graphs)
-                print("Press Enter to continue")
-            case 3:
                 circuit.plot_circuit_graph(circuit_graphs)
                 print("Press Enter to continue")
+            case 3:
+                print(f"Graph's nodes: ")
+                print(circuit_graphs.print_nodes())
+                print("Press Enter to continue")
             case 4:
-                # Print the keys of the dictionary which represents the graph
-                #                print(f"#Circuits: {len(circuit_graphs)}")
-                graph_index = int(input("Circuit number -> "))
-
-                print(f"Graph {graph_index}'s keys: ")
-                #             circuit_graph = circuit_graphs.__getitem__(graph_index - 1)
-
-                #            print(circuit_graph.graph.keys())
+                # Print all edges of the graph
+                print(f"Graph edges: ")
+                print(circuit_graphs.print_edges())
                 print("Press Enter to continue")
             case 5:
-                # Print all edges of the graph
-                #             print(f"#Circuits: {len(circuit_graphs)}")
-                graph_index = int(input("Circuit number -> "))
-
-                print(f"Graph {graph_index}'s edges: ")
-                #              circuit_graph = circuit_graphs.__getitem__(graph_index - 1)
-
-                #          print(circuit_graph.print_edges())
-                print("Press Enter to continue")
-            case 6:
-                #            print(f"#Circuits: {len(circuit_graphs)}")
-                graph_index = int(input("Circuit number -> "))
-                #            circuit_graph = circuit_graphs.__getitem__(graph_index - 1)
-
-                # num_of_cars = int(input("#Cars -> "))  # Number of cars to race
-                car = Car("111-111-111")
-
                 start_node = input("Start node -> ")
                 end_node = input("Destiny node -> ")
 
-                #       print(circuit_graph.DFS_search(start_node, end_node, path=[], visited=set()))
+                print(circuit_graphs.DFS_search(start_node, end_node, path=[], visited=set()))
                 print("Press Enter to continue")
-            case 7:
+            case 6:
                 #            print(f"#Circuits: {len(circuit_graphs)}")
                 graph_index = int(input("Circuit number -> "))
                 #          circuit_graph = circuit_graphs.__getitem__(graph_index - 1)
@@ -77,7 +55,7 @@ def race():
 
                 #       print(circuit_graph.BFS_search(start_node, end_node))
                 print("Press Enter to continue")
-            case 8:
+            case 7:
                 #            print(f"#Circuits: {len(circuit_graphs)}")
                 graph_index = int(input("Circuit number -> "))
                 #      circuit_graph = circuit_graphs.__getitem__(graph_index - 1)
@@ -90,7 +68,7 @@ def race():
                 """
                 #          print(circuit_graph.lowest_cost(start_node, end_node))
                 print("Press Enter to continue")
-            case 9:
+            case 8:
                 #         print(f"#Circuits: {len(circuit_graphs)}")
                 graph_index = int(input("Circuit number -> "))
                 #         circuit_graph = circuit_graphs.__getitem__(graph_index - 1)

@@ -56,22 +56,35 @@ def graph_from_circuit(circuits_file):  # TODO: Debug this function
     circuit = read_circuit(circuits_file)
     costs = determine_circuit_costs(circuits_file)
 
-    graph = Graph()
-    line_pos = 0
+    graph = Graph(True)
+    graph_rotated = Graph(True)
 
+    line_pos = 0
     for line in circuit:
         for column in range(len(line) - 1):
             node_1 = Node(circuit[line_pos][column], line_pos, column)
             node_2 = Node(circuit[line_pos][column + 1], line_pos, column + 1)
-            graph.add_edge(node_1, node_2, costs[line_pos][column + 1])
+            graph.add_edge(node_1, node_2, costs)
         line_pos += 1
 
-    line_pos = 0
+    line_pos = 0  # Reset the counter
+    for line_a in circuit:
+        if line_pos == len(circuit) - 1:
+            break
 
-    for column in range(len(circuit[0]) - 1):
-        for line in circuit:
-            node_1 = Node(circuit[line_pos][column], line_pos, column)
-            node_2 = Node(circuit[line_pos + 1][column], line_pos + 1, column)
-            graph.add_edge(node_1, node_2, costs[line_pos + 1][column])
+        for column_a in range(len(line_a)):
+            node_a = Node(circuit[line_pos][column_a], line_pos, column_a)
+            node_b = Node(circuit[line_pos + 1][column_a], line_pos + 1, column_a)
+            graph.add_edge(node_a, node_b, costs)
+        line_pos += 1
+
+    for line in reversed(range(len(circuit))):
+        for column in range(len(circuit[0])):
+            node_c = Node(circuit[line][column], line, column)
+            node_d = Node(circuit[line - 1][column], line - 1, column)
+            graph.add_edge(node_c, node_d, costs)
+
+        if line - 1 == 0:
+            break
 
     return graph

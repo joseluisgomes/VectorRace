@@ -7,7 +7,6 @@
     <list default="true" id="13947974-4f46-4569-a7d7-aed1697ece76" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/circuit.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/circuit.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/circuits.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/circuits.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/graph.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/graph.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/node.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/node.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/race.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/race.py" afterDir="false" />
@@ -40,6 +39,7 @@
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;ToolWindowRun.ShowToolbar&quot;: &quot;false&quot;,
     &quot;last_opened_file_path&quot;: &quot;/home/joseluisgomes/Github/UMinho/Inteligiencia-Artificial&quot;
   }
 }</component>
@@ -102,8 +102,13 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/graph.py</url>
-          <line>97</line>
-          <option name="timeStamp" value="29" />
+          <line>124</line>
+          <option name="timeStamp" value="90" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/graph.py</url>
+          <line>135</line>
+          <option name="timeStamp" value="91" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>

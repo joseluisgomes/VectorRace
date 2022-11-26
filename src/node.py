@@ -4,7 +4,7 @@ class Node:
         self.line = line
         self.column = column
 
-    def get_name(self):
+    def get_label(self):
         return self.name
 
     def get_line(self):
@@ -26,4 +26,4 @@ class Node:
         return 31 * hash(self.column) + hash(self.line)
 
     def __str__(self):
-        return f"node: ({self.name}, {self.line}, {self.column})"
+        return f"({self.name},{self.line},{self.column})"

@@ -1,9 +1,8 @@
 from queue import Queue
 
-import networkx as nx
 import matplotlib.pyplot as plt
+import networkx as nx
 import math
-from node import Node
 
 
 class Graph:
@@ -13,41 +12,52 @@ class Graph:
         self.graph = {}  # Dictionary to store the nodes, edges and weights
         self.heuristics = {}  # Dictionary to store the heuristics for each node: informed search
 
-    def add_edge(self, node1, node2, weight):  # node1 & node 2 are the names for each node
-        node1_name = node1.get_name()
-        node2_name = node2.get_name()
+    def add_edge(self, node1, node2, costs):  # node1 & node 2 are the names for each node
+        node1_name = node1.__str__()
+        node2_name = node2.__str__()
 
         if node1 not in self.nodes:
             self.nodes.append(node1)
             self.graph[node1_name] = set()
         else:
-            n1 = self.get_node_by_name(node1)
+            n1 = self.get_node(node1)
+
+        node_1_weight = costs[node1.get_line()][node1.get_column()]
+        self.add_heuristic(node1, node_1_weight)
 
         if node2 not in self.nodes:
             self.nodes.append(node2)
             self.graph[node2_name] = set()
         else:
-            n2 = self.get_node_by_name(node2)
+            n2 = self.get_node(node2)
 
-        self.graph[node1_name].add((node2, weight))
+        node_2_weight = costs[node2.get_line()][node2.get_column()]
+        self.add_heuristic(node2, node_2_weight)
 
-        # If the graph is not directed then add the opposite edge
-        if not self.is_directed:
-            self.graph[node2_name].add((node1, weight))
+        self.graph[node1_name].add((node2, node_2_weight))
+        if not self.is_directed:  # If the graph is not directed then add the opposite edge
+            self.graph[node2_name].add((node1, node_1_weight))
 
-    def get_node_by_name(self, search_node):
+    def print_edges(self):
+        edges = ""
+        for node in self.graph.keys():
+            for pair in self.graph[node]:
+                edges += f"{node} -> neighbour: ({pair[0]}), cost: {pair[1]}\n"
+        return edges
+
+    def print_nodes(self):
+        nodes = ""
+        for node in self.nodes:
+            nodes += f"{node.__str__()}\n"
+
+        return nodes
+
+    def get_node(self, search_node):
         for node in self.nodes:
             if node.__eq__(search_node):
                 return node
             else:
                 return None
-
-    def print_edges(self):
-        edges = ""
-        for node in self.graph.keys():
-            for (neighbour, cost) in self.graph[node]:
-                edges += f"{node} -> neighbour: ({neighbour}), cost: {cost}\n"
-        return edges
 
     def get_edge_cost(self, node1, node2):
         total_cost = math.inf
@@ -73,11 +83,11 @@ class Graph:
         graph = nx.Graph()
 
         for node in nodes:
-            aux_node = node.get_name()  # Auxiliary node
-            graph.add_node(aux_node)
+            node_name = node.__str__()  # Auxiliary node
+            graph.add_node(node_name)
 
-            for (neighbour, weight) in self.graph[aux_node]:
-                graph.add_edge(aux_node, neighbour, weight=weight)
+            for (neighbour, weight) in self.graph[node_name]:
+                graph.add_edge(node_name, neighbour, weight=weight)
 
         pos = nx.spring_layout(graph)
         nx.draw_networkx(graph, pos, with_labels=True, font_weight='bold')
@@ -89,59 +99,8 @@ class Graph:
         plt.show()
 
     def add_heuristic(self, node, estimate):
-        n1 = Node(node)
-        if n1 in self.nodes:
+        if node in self.nodes:
             self.heuristics[node] = estimate
-
-    # Calculates the straight distance between 2 nodes
-    def lowest_cost(self, start, end):  # Greedy com heurística focada no menor custo
-        start_node_position = self.node_position(start)
-        end_node_position = self.node_position(end)
-
-        keys_slice = list(self.graph)[start_node_position: end_node_position + 1]
-
-        X_visited = list()
-        visited_keys = list()
-        total_cost = 0
-
-        for index in range(len(keys_slice)):
-            key = str(keys_slice.__getitem__(index))
-            value = self.graph.get(key)
-            keys_list = list(value)
-
-            if visited_keys.__contains__(key):
-                key = str(keys_slice.__getitem__(index + 1))
-                if key == end:
-                    visited_keys.append(key)
-                    break
-
-            if len(value) == 1:
-                total_cost += keys_list[0][1]
-                visited_keys.append(key)
-            else:
-                for pair in keys_list:
-                    pair_to_str = str(pair[0])  # Pair converted to string
-
-                    if not pair_to_str.__contains__('X') and not pair_to_str.__contains__('F'):
-                        if not visited_keys.__contains__(pair_to_str):
-                            total_cost += pair[1]
-                            visited_keys.append(key if not key.__contains__('X') else pair_to_str)
-
-                    else:  # Outers of the circuit
-                        if not X_visited.__contains__(pair_to_str):
-                            X_neighbours = self.get_neighbours(pair_to_str)
-
-                            for neighbour_pair in X_neighbours:
-                                neighbour_pair_str = str(neighbour_pair[0])
-
-                                if not neighbour_pair_str.__contains__('X') and not neighbour_pair_str.__contains__(
-                                        'F'):
-                                    if not visited_keys.__contains__(neighbour_pair_str):
-                                        total_cost += neighbour_pair[1]
-                                        visited_keys.append(neighbour_pair_str)
-                                        break
-                            X_visited.append(pair_to_str)
-        return visited_keys, total_cost
 
     def node_position(self, node):
         graph_keys = list(self.graph)
@@ -159,24 +118,31 @@ class Graph:
             neighbours.append((neighbour, weight))
         return neighbours
 
-    def DFS_search(self, start, end, path=None, visited=None):
-        if visited is None:
-            visited = set()
-        if path is None:
-            path = []
+    def get_right_neighbour(self, node):  # Get the node's neighbour of his right
+        column = 0
+        right_neighbour = None
 
+        for (neighbour, cost) in self.graph[node]:  # Loop through all the node's neighbours
+            if cost < 25 and column < neighbour.get_column():
+                column = neighbour.get_column()
+                right_neighbour = neighbour.__str__()
+
+        return right_neighbour
+
+    def DFS_search(self, start, end, path=[], visited=set()):
         path.append(start)
         visited.add(start)
 
         if start == end:
             total_cost = self.calculate_cost(path)
             return path, total_cost
-        for (neighbour, peso) in self.graph[start]:
-            if neighbour not in visited:
-                result = self.DFS_search(neighbour, end, path, visited)
 
-                if result is not None:
-                    return result
+        neighbour = self.get_right_neighbour(start)
+        if neighbour not in visited:
+            result = self.DFS_search(neighbour, end, path, visited)
+
+            if result is not None:
+                return result
         path.pop()  # If It doesn't find it then remove the one on the path
         return None
 
