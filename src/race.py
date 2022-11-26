@@ -1,5 +1,4 @@
 import circuit
-from src.car.car import Car
 
 
 def race():
@@ -35,7 +34,6 @@ def race():
                 print(circuit_graphs.print_nodes())
                 print("Press Enter to continue")
             case 4:
-                # Print all edges of the graph
                 print(f"Graph edges: ")
                 print(circuit_graphs.print_edges())
                 print("Press Enter to continue")
@@ -43,7 +41,8 @@ def race():
                 start_node = input("Start node -> ")
                 end_node = input("Destiny node -> ")
 
-                print(circuit_graphs.DFS_search(start_node, end_node, path=[], visited=set()))
+                DFS_result = circuit_graphs.DFS_search(start_node, end_node, path=[], visited=set())
+                print(f"Race: {DFS_result})")
                 print("Press Enter to continue")
             case 6:
                 #            print(f"#Circuits: {len(circuit_graphs)}")

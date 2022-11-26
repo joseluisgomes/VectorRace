@@ -56,27 +56,32 @@ class Graph:
         for node in self.nodes:
             if node.__eq__(search_node):
                 return node
-            else:
-                return None
+        return None
+
+    def get_node_by_name(self, name):
+        for node in self.nodes:
+            if node.__str__() == name:
+                return node
+        return None
 
     def get_edge_cost(self, node1, node2):
         total_cost = math.inf
         node1_edges = self.graph[node1]
+        target_node = self.get_node_by_name(node2)
 
-        for (node, cost) in node1_edges:
-            if node == node2:
+        for (neighbour, cost) in node1_edges:
+            if neighbour.__eq__(target_node):
                 total_cost = cost
         return total_cost
 
     def calculate_cost(self, path):  # Given a certain path, this function calculates his overall cost
-        # Path is a list of the node's name
-        aux = path  # Auxiliary variable
-        cost = 0
+        total_cost = 0
         i = 0
-        while i + 1 < len(aux):
-            cost = cost + self.get_edge_cost(aux[i], aux[i + 1])
+
+        while i + 1 < len(path):
+            total_cost += self.get_edge_cost(path[i], path[i + 1])
             i = i + 1
-        return cost
+        return total_cost
 
     def plot(self):  # Plot the graph
         nodes = self.nodes  # Create a list of vertices
@@ -118,15 +123,20 @@ class Graph:
             neighbours.append((neighbour, weight))
         return neighbours
 
-    def get_right_neighbour(self, node):  # Get the node's neighbour of his right
+    def get_closest_neighbour(self, node, destiny):  # Get the node's neighbour of his right
         column = 0
         right_neighbour = None
 
         for (neighbour, cost) in self.graph[node]:  # Loop through all the node's neighbours
-            if cost < 25 and column < neighbour.get_column():
-                column = neighbour.get_column()
-                right_neighbour = neighbour.__str__()
+            if cost < 25 and column < neighbour.get_column():  # Avoiding 'X'
+                target = self.get_node_by_name(neighbour.__str__())
 
+                if target.get_label() == 'F':
+                    if target.__str__() == destiny:
+                        right_neighbour = target.__str__()
+                else:
+                    column = neighbour.get_column()
+                    right_neighbour = neighbour.__str__()
         return right_neighbour
 
     def DFS_search(self, start, end, path=[], visited=set()):
@@ -137,10 +147,10 @@ class Graph:
             total_cost = self.calculate_cost(path)
             return path, total_cost
 
-        neighbour = self.get_right_neighbour(start)
+        neighbour = self.get_closest_neighbour(start, end)
+
         if neighbour not in visited:
             result = self.DFS_search(neighbour, end, path, visited)
-
             if result is not None:
                 return result
         path.pop()  # If It doesn't find it then remove the one on the path
