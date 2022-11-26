@@ -14,42 +14,40 @@ class Graph:
         self.heuristics = {}  # Dictionary to store the heuristics for each node: informed search
 
     def add_edge(self, node1, node2, weight):  # node1 & node 2 are the names for each node
-        n1 = Node(node1)
-        n2 = Node(node2)
+        node1_name = node1.get_name()
+        node2_name = node2.get_name()
 
-        if n1 not in self.nodes:
-            self.nodes.append(n1)
-            self.graph[node1] = set()
+        if node1 not in self.nodes:
+            self.nodes.append(node1)
+            self.graph[node1_name] = set()
         else:
             n1 = self.get_node_by_name(node1)
 
-        if n2 not in self.nodes:
-            self.nodes.append(n2)
-            self.graph[node2] = set()
+        if node2 not in self.nodes:
+            self.nodes.append(node2)
+            self.graph[node2_name] = set()
         else:
             n2 = self.get_node_by_name(node2)
 
-        self.graph[node1].add((node2, weight))
+        self.graph[node1_name].add((node2, weight))
 
         # If the graph is not directed then add the opposite edge
         if not self.is_directed:
-            self.graph[node2].add((node1, weight))
+            self.graph[node2_name].add((node1, weight))
 
-    def get_node_by_name(self, name):
-        search_node = Node(name)
-
+    def get_node_by_name(self, search_node):
         for node in self.nodes:
-            if node == search_node:
+            if node.__eq__(search_node):
                 return node
             else:
                 return None
 
     def print_edges(self):
-        listaA = ""
-        for nodo in self.graph.keys():
-            for (nodo2, cost) in self.graph[nodo]:
-                listaA = listaA + nodo + " ->" + nodo2 + " cost: " + str(cost) + "\n"
-        return listaA
+        edges = ""
+        for node in self.graph.keys():
+            for (neighbour, cost) in self.graph[node]:
+                edges += f"{node} -> neighbour: ({neighbour}), cost: {cost}\n"
+        return edges
 
     def get_edge_cost(self, node1, node2):
         total_cost = math.inf
@@ -136,7 +134,8 @@ class Graph:
                             for neighbour_pair in X_neighbours:
                                 neighbour_pair_str = str(neighbour_pair[0])
 
-                                if not neighbour_pair_str.__contains__('X') and not neighbour_pair_str.__contains__('F'):
+                                if not neighbour_pair_str.__contains__('X') and not neighbour_pair_str.__contains__(
+                                        'F'):
                                     if not visited_keys.__contains__(neighbour_pair_str):
                                         total_cost += neighbour_pair[1]
                                         visited_keys.append(neighbour_pair_str)

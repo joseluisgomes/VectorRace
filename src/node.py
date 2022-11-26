@@ -1,22 +1,29 @@
 class Node:
-    def __init__(self, name, node_id=-1):
-        self.id = node_id
-        self.name = str(name)  # The node's name is the class key
-
-    def set_id(self, node_id):
-        self.id = node_id
-
-    def get_id(self):
-        return self.id
+    def __init__(self, name, line, column):
+        self.name = str(name)
+        self.line = line
+        self.column = column
 
     def get_name(self):
         return self.name
 
+    def get_line(self):
+        return self.line
+
+    def get_column(self):
+        return self.column
+
+    def set_line(self, new_line):
+        self.line = new_line
+
+    def set_column(self, new_column):
+        self.column = new_column
+
     def __eq__(self, other):
-        return self.name == other.name
+        return self.line == other.line and self.column == other.column
 
     def __hash__(self):
-        return hash(self.name)
+        return 31 * hash(self.column) + hash(self.line)
 
     def __str__(self):
-        return "node " + self.name
+        return f"node: ({self.name}, {self.line}, {self.column})"

@@ -1,92 +1,77 @@
+import numpy
 from src.graph import Graph
+from src.node import Node
 
 
-def read_circuits(circuits_file):
+def read_circuit(circuits_file):
     try:
         with open(circuits_file) as file_stream:
-            # In the "circuits.txt" file the circuits are separated by a $.
-            stream = file_stream.read().strip().split('$')
+            circuit = []
+
+            for line in file_stream.readlines():
+                line_formatted = line.strip().split(' ')
+                circuit.append(line_formatted)
+
             file_stream.close()
-            return stream
+            return circuit
     except OSError:
         print(f"Failed to open {circuits_file} file.")
 
 
 def print_circuits(circuits_file):
-    circuits = read_circuits(circuits_file)
-    circuit_index = 1
-
-    for circuit in circuits:
-        print(f"Circuit {circuit_index}:")
-        print(f"{circuit}")
-        circuit_index += 1
+    circuit = read_circuit(circuits_file)
+    print(numpy.mat(circuit))
 
 
-def print_circuits_graphs(graphs):
-    if graphs is None:
-        return
-
-    graph_index = 1
-    for graph in graphs:
-        print(f"Graph {graph_index}: ")
-        print(graph.print_edges())
-        graph_index += 1
+def print_circuits_graphs(graph):
+    print(f"Graph: ")
+    print(graph.print_edges())
 
 
 def plot_circuit_graph(graph):
     graph.plot()
 
 
-def format_circuits(circuits):
-    formatted_circuits = list()
+def determine_circuit_costs(circuits_file):
+    circuit = read_circuit(circuits_file)
+    costs = [[0] * len(line) for line in circuit]
+    line_pos = 0
 
-    for circuit in circuits:
-        formatted_circuit = circuit.replace(' ', '').replace('\n', '')
-        formatted_circuit_to_list = [char for char in formatted_circuit]
-        formatted_circuits.append(formatted_circuit_to_list)
-    return formatted_circuits
+    for line in circuit:
+        for column in range(len(line)):  # Num. of columns = length of the line
+            match line[column]:
+                case 'P':
+                    costs[line_pos][column] = 0
+                case '-':
+                    costs[line_pos][column] = 1
+                case 'X':
+                    costs[line_pos][column] = 25
+                case 'F':
+                    costs[line_pos][column] = 10
+        line_pos += 1
+    return costs
 
 
-def circuits_graphs(circuits_file):
-    circuits = format_circuits(read_circuits(circuits_file))
-    graphs = list()
+def graph_from_circuit(circuits_file):  # TODO: Debug this function
+    circuit = read_circuit(circuits_file)
+    costs = determine_circuit_costs(circuits_file)
 
-    for circuit in circuits:
-        graph = Graph()
+    graph = Graph()
+    line_pos = 0
 
-        for i in range(len(circuit)):
-            if i + 1 == len(circuit):
-                break
+    for line in circuit:
+        for column in range(len(line) - 1):
+            node_1 = Node(circuit[line_pos][column], line_pos, column)
+            node_2 = Node(circuit[line_pos][column + 1], line_pos, column + 1)
+            graph.add_edge(node_1, node_2, costs[line_pos][column + 1])
+        line_pos += 1
 
-            current_char = circuit.__getitem__(i)
-            next_char = circuit.__getitem__(i + 1)
+    line_pos = 0
 
-            if current_char == '-' and next_char == 'X':
-                graph.add_edge(f"-{i}", f"X{i + 1}", 25)
-            if current_char == '-' and next_char == '-':
-                graph.add_edge(f"-{i}", f"-{i + 1}", 1)
-            if current_char == '-' and next_char == 'F':
-                graph.add_edge(f"-{i}", f"F{i + 1}", 1)
+    for column in range(len(circuit[0]) - 1):
+        for line in circuit:
+            node_1 = Node(circuit[line_pos][column], line_pos, column)
+            node_2 = Node(circuit[line_pos + 1][column], line_pos + 1, column)
+            graph.add_edge(node_1, node_2, costs[line_pos + 1][column])
 
-            if current_char == 'P' and next_char == 'X':
-                graph.add_edge(f"P{i}", f"X{i + 1}", 25)
-            if current_char == 'P' and next_char == '-':
-                graph.add_edge(f"P{i}", f"-{i + 1}", 1)
-
-            # TODO: Change the velocity & the acceleration of the vehicle
-            if current_char == 'X' and next_char == 'X':
-                graph.add_edge(f"X{i}", f"X{i + 1}", 25)
-            if current_char == 'X' and next_char == '-':
-                graph.add_edge(f"X{i}", f"-{i + 1}", 13)
-            if current_char == 'X' and next_char == 'F':
-                graph.add_edge(f"X{i}", f"F{i + 1}", 25)
-
-            if current_char == 'F' and next_char == 'X':
-                graph.add_edge(f"F{i}", f"X{i + 1}", 0)
-            if current_char == 'F' and next_char == '-':
-                graph.add_edge(f"F{i}", f"-{i + 1}", 0)
-            if current_char == 'F' and next_char == 'F':
-                graph.add_edge(f"F{i}", f"F{i + 1}", 0)
-
-        graphs.append(graph)
-    return graphs
+    return graph
