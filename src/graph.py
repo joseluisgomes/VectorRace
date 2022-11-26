@@ -176,13 +176,26 @@ class Graph:
             if current_node == end:
                 path_found = True
             else:
+                column = 0
                 for (neighbour, weight) in self.graph[current_node]:
                     neighbour_str = neighbour.__str__()
 
                     if neighbour_str not in visited:
-                        queue.put(neighbour_str)
-                        parent[neighbour_str] = current_node
-                        visited.add(neighbour_str)
+                        if weight < 25 and column < neighbour.get_column():  # Avoiding X
+                            target = self.get_node_by_name(neighbour_str)
+
+                            if target.get_label() == 'F':
+                                if target.__str__() == end:
+                                    queue.put(neighbour_str)
+                                    parent[neighbour_str] = current_node
+                                    visited.add(neighbour_str)
+                                    break
+                            else:
+                                column = neighbour.get_column()
+                                queue.put(neighbour_str)
+                                parent[neighbour_str] = current_node
+                                visited.add(neighbour_str)
+
         # Rebuild the path
         path = []
         if path_found:
