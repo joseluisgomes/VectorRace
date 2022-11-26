@@ -134,6 +134,7 @@ class Graph:
                 if target.get_label() == 'F':
                     if target.__str__() == destiny:
                         right_neighbour = target.__str__()
+                        return right_neighbour
                 else:
                     column = neighbour.get_column()
                     right_neighbour = neighbour.__str__()
