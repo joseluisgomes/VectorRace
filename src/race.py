@@ -59,14 +59,11 @@ def race():
                 print(f"Greedy result: {greedy_result})")
                 print("Press Enter to continue")
             case 8:
-                #         print(f"#Circuits: {len(circuit_graphs)}")
-                graph_index = int(input("Circuit number -> "))
-                #         circuit_graph = circuit_graphs.__getitem__(graph_index - 1)
-
                 start_node = input("Start node-> ")
                 end_node = input("Destiny node-> ")
 
-                #                print(circuit_graph.BFS_search(start_node, end_node))
+                a_star_result = circuit_graphs.A_star_search(start_node, end_node)
+                print(f"Greedy result: {a_star_result})")
                 print("Press Enter to continue")
             case _:
                 print("Invalid option...")

@@ -64,6 +64,12 @@ class Graph:
                 return node
         return None
 
+    def get_node_heuristics(self, target_node):
+        for node in self.heuristics.keys():
+            if node.__eq__(target_node):
+                return self.heuristics[target_node]
+        return None
+
     def get_edge_cost(self, node1, node2):
         total_cost = math.inf
         node1_edges = self.graph[node1]
@@ -82,6 +88,17 @@ class Graph:
             total_cost += self.get_edge_cost(path[i], path[i + 1])
             i = i + 1
         return total_cost
+
+    def calculate_estimate(self, heuristics):
+        keys = list(heuristics.keys())
+        min_estimate = heuristics[keys[0]]
+        node = keys[0]
+
+        for key, value in heuristics.items():
+            if value < min_estimate:
+                min_estimate = value
+                node = key
+        return node
 
     def plot(self):  # Plot the graph
         nodes = self.nodes  # Create a list of vertices
@@ -273,6 +290,105 @@ class Graph:
             """ 
                 Remove the node from the set "open" and add it to the closed_list
                 because all his neighbors have been inspected.
+            """
+            open_list.remove(node_str)
+            closed_list.add(node_str)
+
+        print('Path does not exist!')
+        return None
+
+    def A_star_search(self, start, end):
+        """
+            open_list is a list of nodes which have been visited, but who's neighbors
+            haven't all been inspected, starts off with the start node
+            closed_list is a list of nodes which have been visited
+            and who's neighbors have been inspected .
+        """
+        open_list = {start}
+        closed_list = set([])
+
+        """ 
+            g contains current distances from start_node to all other nodes
+            the default value (if it's not found in the map) is +infinity 
+        """
+        g = {start: 0}
+        parents = {start: start}  # Parents contains an adjacency map of all nodes
+        node_str = None
+
+        while len(open_list) > 0:
+            calculate_heuristics = {}  # Find a node with the lowest value of f() - evaluation function
+            flag = 0
+
+            for visited_node_str in open_list:
+                if node_str is None:
+                    node_str = visited_node_str
+                else:
+                    flag = 1
+                    visited_node = self.get_node_by_name(visited_node_str)
+                    calculate_heuristics[visited_node_str] = g[visited_node_str] + \
+                                                             self.get_node_heuristics(visited_node)
+
+            if flag == 1:
+                min_estimate = self.calculate_estimate(calculate_heuristics)
+                node_str = min_estimate
+            if node_str is None:
+                print('Path does not exist!')
+                return None
+
+            """
+                If the current node is the stop_node
+                then we rebuild the path from it to the start_node
+            """
+            if node_str == end:
+                rebuild_path = []
+
+                while parents[node_str] != node_str:
+                    rebuild_path.append(node_str)
+                    node_str = parents[node_str]
+
+                rebuild_path.append(start)
+                rebuild_path.reverse()
+                return rebuild_path, self.calculate_cost(rebuild_path)
+
+            column = 0
+            for (neighbour, weight) in self.get_neighbours(node_str):  # For all neighbors of the current node do
+                """ 
+                    if the current node isn't in both open_list and closed_list
+                    add it to open_list and note n as it's parent 
+                """
+                if neighbour not in open_list and neighbour not in closed_list:
+                    target = self.get_node_by_name(neighbour)
+
+                    if weight < 25 and column < target.get_column():  # Avoiding X
+                        if target.get_label() == 'F':
+                            if target.__str__() == end:
+                                open_list.add(neighbour)
+                                parents[neighbour] = node_str
+                                g[neighbour] = g[node_str] + weight
+                                break  # Destiny node founded => no more iterations are needed
+                        else:
+                            column = target.get_column()
+                            open_list.add(neighbour)
+                            parents[neighbour] = node_str
+                            g[neighbour] = g[node_str] + weight
+
+                    """
+                        otherwise, check if it's quicker to first visit n, then m
+                        and if it is, update parent data and g data
+                        and if the node was in the closed_list, move it to open_list
+                    """
+                else:
+                    if g[neighbour] > g[node_str] + weight:
+                        g[neighbour] = g[node_str] + weight
+                        parents[neighbour] = node_str
+
+                        if neighbour in closed_list:
+                            closed_list.remove(neighbour)
+                            open_list.add(neighbour)
+
+            """
+                Remove n from the open_list, and add it to closed_list
+                because all of his neighbors were inspected
             """
             open_list.remove(node_str)
             closed_list.add(node_str)
