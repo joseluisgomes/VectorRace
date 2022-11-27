@@ -52,17 +52,11 @@ def race():
                 print(f"BFS result: {BFS_result})")
                 print("Press Enter to continue")
             case 7:
-                #            print(f"#Circuits: {len(circuit_graphs)}")
-                graph_index = int(input("Circuit number -> "))
-                #      circuit_graph = circuit_graphs.__getitem__(graph_index - 1)
-
                 start_node = input("Start node-> ")
                 end_node = input("Destiny node-> ")
 
-                """
-                    Heuristic: lowest cost between the start & the end nodes
-                """
-                #          print(circuit_graph.lowest_cost(start_node, end_node))
+                greedy_result = circuit_graphs.greedy_search(start_node, end_node)
+                print(f"Greedy result: {greedy_result})")
                 print("Press Enter to continue")
             case 8:
                 #         print(f"#Circuits: {len(circuit_graphs)}")

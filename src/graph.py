@@ -120,7 +120,7 @@ class Graph:
         neighbours = []
 
         for (neighbour, weight) in self.graph[node]:
-            neighbours.append((neighbour, weight))
+            neighbours.append((neighbour.__str__(), weight))
         return neighbours
 
     def get_closest_neighbour(self, node, destiny):  # Get the node's neighbour of his right
@@ -221,48 +221,61 @@ class Graph:
         parents = {start: start}  # Dictionary that stores the previous node of a node, starts with the node 'start'
 
         while len(open_list) > 0:
-            node = None
+            node_str = None
 
             # Find the node with the lowest heuristic
-            for v in open_list:
-                if node is None or self.heuristics[v] < self.heuristics[node]:
-                    node = v
+            for visited_node_str in open_list:
+                visited_node = self.get_node_by_name(visited_node_str)
+                node = self.get_node_by_name(node_str)
 
-            if node is None:
+                if node_str is None or self.heuristics[visited_node] < self.heuristics[node]:
+                    node_str = visited_node_str
+
+            if node_str is None:
                 print('Path does not exist!')
                 return None
 
-            if node == end:
+            if node_str == end:
                 """
                     If the current node is the destiny node:
                     Rebuild the path from that node to the initial node ('start'),
                     following the previous one.
                 """
                 rebuild_path = []
-                while parents[node] != node:
-                    rebuild_path.append(node)
-                    node = parents[node]
+                while parents[node_str] != node_str:
+                    rebuild_path.append(node_str)
+                    node_str = parents[node_str]
 
                 rebuild_path.append(start)
                 rebuild_path.reverse()
 
                 return rebuild_path, self.calculate_cost(rebuild_path)
 
-            for (m, weight) in self.get_neighbours(node):  # For all neighbours of the current node
+            column = 0
+            for (neighbour, weight) in self.get_neighbours(node_str):  # For all neighbours of the current node
                 """
                     If the current node isn't on the open_set and neither on the closed list
                     then add it to the open_set and stamp the previous node. 
                 """
-                if m not in open_list and m not in closed_list:
-                    open_list.add(m)
-                    parents[m] = node
+                if neighbour not in open_list and neighbour not in closed_list:
+                    target = self.get_node_by_name(neighbour)
 
+                    if weight < 25 and column < target.get_column():  # Avoiding X
+                        if target.get_label() == 'F':
+                            if target.__str__() == end:
+                                open_list.add(neighbour)
+                                parents[neighbour] = node_str
+                                break  # Destiny node founded => no more iterations are needed
+                        else:
+                            column = target.get_column()
+                            open_list.add(neighbour)
+                            parents[neighbour] = node_str
             """ 
                 Remove the node from the set "open" and add it to the closed_list
                 because all his neighbors have been inspected.
             """
-            open_list.remove(node)
-            closed_list.add(node)
+            open_list.remove(node_str)
+            closed_list.add(node_str)
 
         print('Path does not exist!')
         return None
