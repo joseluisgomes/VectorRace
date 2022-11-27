@@ -1,4 +1,7 @@
 import numpy
+
+from src.car.acceleration import Acceleration
+from src.car.car import Car
 from src.graph import Graph
 from src.node import Node
 
@@ -57,7 +60,6 @@ def graph_from_circuit(circuits_file):  # TODO: Debug this function
     costs = determine_circuit_costs(circuits_file)
 
     graph = Graph(True)
-    graph_rotated = Graph(True)
 
     line_pos = 0
     for line in circuit:
@@ -88,3 +90,18 @@ def graph_from_circuit(circuits_file):  # TODO: Debug this function
             break
 
     return graph
+
+
+def process_race(race_data, car_registration, destiny_node):
+    race_path = race_data[0]
+
+    car = Car(car_registration)
+    for position in range(1, len(race_path) - 1):
+        car.set_velocity(Acceleration.POSITIVE.value)
+
+    car.set_line(destiny_node.get_line())
+    car.set_column(destiny_node.get_column())
+    return car
+
+
+

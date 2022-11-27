@@ -42,29 +42,45 @@ def race():
                 end_node = input("Destiny node -> ")
 
                 DFS_result = circuit_graphs.DFS_search(start_node, end_node, path=[], visited=set())
+                destiny_node = circuit_graphs.get_node_by_name(end_node)
+                car_settings = circuit.process_race(DFS_result, "AAA-BBB-CCC", destiny_node)
+
                 print(f"DFS result: {DFS_result})")
-                print("Press Enter to continue")
+                print(f"{car_settings}")
+                print("\nPress Enter to continue")
             case 6:
                 start_node = input("Start node-> ")
                 end_node = input("Destiny node-> ")
 
                 BFS_result = circuit_graphs.BFS_search(start_node, end_node)
+                destiny_node = circuit_graphs.get_node_by_name(end_node)
+                car_settings = circuit.process_race(BFS_result, "AAA-BBB-CCC", destiny_node)
+
                 print(f"BFS result: {BFS_result})")
-                print("Press Enter to continue")
+                print(f"{car_settings}")
+                print("\nPress Enter to continue")
             case 7:
                 start_node = input("Start node-> ")
                 end_node = input("Destiny node-> ")
 
                 greedy_result = circuit_graphs.greedy_search(start_node, end_node)
+                destiny_node = circuit_graphs.get_node_by_name(end_node)
+                car_settings = circuit.process_race(greedy_result, "AAA-BBB-CCC", destiny_node)
+
                 print(f"Greedy result: {greedy_result})")
-                print("Press Enter to continue")
+                print(f"{car_settings}")
+                print("\nPress Enter to continue")
             case 8:
                 start_node = input("Start node-> ")
                 end_node = input("Destiny node-> ")
 
                 a_star_result = circuit_graphs.A_star_search(start_node, end_node)
-                print(f"Greedy result: {a_star_result})")
-                print("Press Enter to continue")
+                destiny_node = circuit_graphs.get_node_by_name(end_node)
+                car_settings = circuit.process_race(a_star_result, "AAA-BBB-CCC", destiny_node)
+
+                print(f"A Star result: {a_star_result})")
+                print(f"{car_settings}")
+                print("\nPress Enter to continue")
             case _:
                 print("Invalid option...")
                 print("Press Enter to continue")
