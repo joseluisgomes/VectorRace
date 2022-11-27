@@ -42,14 +42,14 @@ def race():
                 end_node = input("Destiny node -> ")
 
                 DFS_result = circuit_graphs.DFS_search(start_node, end_node, path=[], visited=set())
-                print(f"Race: {DFS_result})")
+                print(f"DFS result: {DFS_result})")
                 print("Press Enter to continue")
             case 6:
                 start_node = input("Start node-> ")
                 end_node = input("Destiny node-> ")
 
                 BFS_result = circuit_graphs.BFS_search(start_node, end_node)
-                print(f"Race: {BFS_result})")
+                print(f"BFS result: {BFS_result})")
                 print("Press Enter to continue")
             case 7:
                 #            print(f"#Circuits: {len(circuit_graphs)}")

@@ -189,7 +189,7 @@ class Graph:
                                     queue.put(neighbour_str)
                                     parent[neighbour_str] = current_node
                                     visited.add(neighbour_str)
-                                    break
+                                    break  # Destiny node founded => no more iterations are needed
                             else:
                                 column = neighbour.get_column()
                                 queue.put(neighbour_str)
