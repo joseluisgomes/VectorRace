@@ -55,7 +55,7 @@ def determine_circuit_costs(circuits_file):
     return costs
 
 
-def graph_from_circuit(circuits_file):  # TODO: Debug this function
+def graph_from_circuit(circuits_file):
     circuit = read_circuit(circuits_file)
     costs = determine_circuit_costs(circuits_file)
 

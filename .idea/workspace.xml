@@ -6,10 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="13947974-4f46-4569-a7d7-aed1697ece76" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Pista.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/car/car.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/car/car.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/circuit.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/circuit.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/race.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/race.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,7 +36,6 @@
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;ToolWindowRun.ShowToolbar&quot;: &quot;false&quot;,
     &quot;last_opened_file_path&quot;: &quot;/home/joseluisgomes/Github/UMinho/Inteligiencia-Artificial&quot;
   }
 }</component>
