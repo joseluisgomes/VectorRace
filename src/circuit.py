@@ -102,6 +102,3 @@ def process_race(race_data, car_registration, destiny_node):
     car.set_line(destiny_node.get_line())
     car.set_column(destiny_node.get_column())
     return car
-
-
-
