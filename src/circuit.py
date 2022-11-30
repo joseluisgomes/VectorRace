@@ -23,7 +23,8 @@ def read_circuit(circuits_file):
 
 def print_circuits(circuits_file):
     circuit = read_circuit(circuits_file)
-    print(numpy.mat(circuit))
+    for line in circuit:
+        print(line)
 
 
 def print_circuits_graphs(graph):
