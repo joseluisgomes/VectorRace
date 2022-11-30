@@ -11,9 +11,7 @@ def race():
     status = -1
 
     while status != 0:
-        colorama.init(autoreset=True)
         print(Fore.YELLOW + pyfiglet.figlet_format("Vector Race"))
-
         print("1-Print circuits")
         print("2-Plot Graph")
         print("3-Print the nodes of the Graph")
@@ -93,4 +91,5 @@ def race():
                 print("Press Enter to continue")
 
 
+colorama.init(autoreset=True)
 race()
