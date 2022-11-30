@@ -1,5 +1,3 @@
-import numpy
-
 from src.car.acceleration import Acceleration
 from src.car.car import Car
 from src.graph import Graph
