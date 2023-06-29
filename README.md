@@ -14,7 +14,7 @@ Num determinado instante, o carro poderá acelerar -1, 0 ou 1 unidades em cada d
 
 Considerando a notação **l**, que representa a linha e **c** a coluna para os vetores, num determinado instante, o carro pode acelerar -1 ,0 ou 1 unidades em cada direção (linha e coluna). Consequentemente, para cada uma das direções o conjunto de acelerações possíveis é Acel = {-1, 0, +1}, com a =(al,ac) a representar a aceleração de um carro nas duas direções num determinado instante.
 
-Tendo em conta que **p** como tuplo que indica a posição de um carro numa determinada jogada j ($p_j = (p_l, p_c)$), e **v** o tuplo que indica a velocidade do carro nessa jogada ($v_j = (v_l,v_c)$) , na seguinte jogada o carro estará na posição:
+Tendo em conta que **p** como tuplo que indica a posição de um carro numa determinada jogada j ( $p_j = (p_l, p_c)$ ), e **v** o tuplo que indica a velocidade do carro nessa jogada ( $v_j = (v_l,v_c)$ ) , na seguinte jogada o carro estará na posição:
 $$\left(p_l^{j+1} \right) = \left(p_l^{j} + v_l^j + a_l \right)$$
 $$\left(p_c^{j+1} \right) = \left(p_c^{j} + v_c^j + a_c \right)$$
 
