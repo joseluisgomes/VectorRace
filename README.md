@@ -7,6 +7,12 @@ A figura seguinte ilustra a UI da aplicação desenvolvida.
   <img width="450" height="450" src="https://github.com/joseluisgomes/VectorRace/assets/70901488/f2c682cf-28bb-468f-836d-6617dd8e7c83">
 </p>
 
+## Exemplo de execução do programa
+<p align="center">
+  <img width="300" height="90" src="https://user-images.githubusercontent.com/70901488/205396287-bb8b9a63-6b72-47e9-a33f-fc971e1ddbd7.png">
+</p>
+
+
 ## Movimento do carro
 O movimento de um carro no VectorRace é simples, qualquer movimento efetuado pelo veículo resultará numa variação do seu conjunto de acelerações.
 
@@ -36,6 +42,3 @@ O circuito gerado pelo grupo encontra-se representado pela figura abaixo.
 </p>
 
 Neste exemplo é apresentado uma pista de 20 colunas e 7 linhas, onde o ‘-‘ representa a **pista**, o ‘X’ representa o **obstáculo/fora** da pista, o P a posição **inicial** e o F as posições **finais** (meta).
-
-## Exemplo de execução do programa
-![execucao](https://user-images.githubusercontent.com/70901488/205396287-bb8b9a63-6b72-47e9-a33f-fc971e1ddbd7.png)
